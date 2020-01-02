@@ -5,7 +5,7 @@ set -e
 
 ###############################################################################
 # Should be defined as an environment variable, will be v1.3.x otherwise
-branch=${branch:-v1.23.x}
+branch=${branch:master}
 clean=${clean:-true}
 
 VAR_GIT_BRANCH=$branch
@@ -18,17 +18,18 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 GRPC_FOLDER_NAME=grpc
 GRPC_ROOT="${SCRIPT_DIR}/${GRPC_FOLDER_NAME}"
 
-DEPS=(git automake autoconf libtool make strip go pkg-config)
+DEPS=(git automake autoconf libtool make strip-nondeterminism go pkg-config)
 
 # Linux needs an existing UE installation
-UE_ROOT=${UE_ROOT:-"/var/lib/jenkins/UE_4.20.2-release"}
+UE_ROOT=/home/ascent/UNREAL/UnrealEngine
+#UE_ROOT=${UE_ROOT:-"/var/lib/jenkins/UE_4.20.2-release"}
 
 if [ ! -d "$UE_ROOT" ]; then
     echo "UE_ROOT directory ${UE_ROOT} does not exist, please set correct UE_ROOT"
     exit 1
 fi;
 
-UE_PREREQUISITES="${UE_ROOT}/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v13_clang-7.0.1-centos7/x86_64-unknown-linux-gnu"
+UE_PREREQUISITES="${UE_ROOT}/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v15_clang-8.0.1-centos7/x86_64-unknown-linux-gnu"
 ###############################################################################
 
 OPENSSL_LIB="${UE_ROOT}/Engine/Source/ThirdParty/OpenSSL/1_0_2h/lib/Linux/x86_64-unknown-linux-gnu"
@@ -38,11 +39,11 @@ echo "SCRIPT_DIR=${SCRIPT_DIR}"
 echo "GRPC_ROOT=${GRPC_ROOT}"
 
 # Check if all tools are installed
-for i in ${DEPS[@]}; do
-    if [ ! "$(which ${i})" ];then
-       echo "${i} not found, install via 'apt-get install ${i}'" && exit 1
-    fi
-done
+#for i in ${DEPS[@]}; do
+#    if [ ! "$(dpkg -s ${i})" ];then
+#       echo "${i} not found, install via 'apt-get install ${i}'" && exit 1
+#    fi
+#done
 
 # Check if ran under Linux
 if [ $(uname) != 'Linux' ]; then
@@ -63,7 +64,7 @@ fi
 echo "Checking out branch ${VAR_GIT_BRANCH}"
 (cd $GRPC_ROOT && git fetch)
 (cd $GRPC_ROOT && git checkout -f)
-(cd $GRPC_ROOT && git checkout -t origin/$VAR_GIT_BRANCH || true)
+(cd $GRPC_ROOT && git checkout -b -t origin/$VAR_GIT_BRANCH || true)
 
 # Update submodules
 (cd $GRPC_ROOT && git submodule update --init)

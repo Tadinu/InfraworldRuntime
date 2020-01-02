@@ -120,6 +120,9 @@ public class InfraworldRuntime : ModuleRules
 
     public InfraworldRuntime(ReadOnlyTargetRules Target) : base(Target)
     {
+                
+        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;                
+	
         PublicDefinitions.Add("GOOGLE_PROTOBUF_NO_RTTI");
         PublicDefinitions.Add("GPR_FORBID_UNREACHABLE_CODE");
         PublicDefinitions.Add("GRPC_ALLOW_EXCEPTIONS=0");
