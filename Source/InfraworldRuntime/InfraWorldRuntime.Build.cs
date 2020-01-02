@@ -147,7 +147,7 @@ public class InfraworldRuntime : ModuleRules
             "Core"
         });
 
-        AddEngineThirdPartyPrivateStaticDependencies(Target, "OpenSSL");
+        //AddEngineThirdPartyPrivateStaticDependencies(Target, "OpenSSL");
         AddEngineThirdPartyPrivateStaticDependencies(Target, "zlib");
 
         PrivateDependencyModuleNames.AddRange(new string[] { "CoreUObject", "Engine" });
