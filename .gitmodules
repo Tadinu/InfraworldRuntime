@@ -1,3 +1,6 @@
 [submodule "Utilities/infraworld-protobuild"]
 	path = Utilities/infraworld-protobuild
 	url = git@github.com:vizor-games/infraworld-protobuild.git
+[submodule "Utilities/infraworld-cornerstone"]
+	path = Utilities/infraworld-cornerstone
+	url = git@github.com:vizor-games/infraworld-cornerstone.git
